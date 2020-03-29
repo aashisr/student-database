@@ -1,9 +1,15 @@
-import React from 'react'
+import React from 'react';
 
 function StudentsComponent(props) {
+    console.log('Props in students component is ', props);
 
-	console.log('Props in students component is ', props);
-	return (
+    //const allStudents =
+    if (props.allStudents.length === 0) {
+        console.log('No students');
+        return <div>No students</div>;
+    }
+
+    return (
         <div className='container'>
             <h3>All students</h3>
             <table className='table table-striped'>

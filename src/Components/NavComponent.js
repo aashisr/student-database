@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 function NavComponent() {
 	return (
@@ -22,12 +22,12 @@ function NavComponent() {
                     </button>
                     <div className='collapse navbar-collapse ml-auto' id='navbarNavAltMarkup'>
                         <div className='navbar-nav'>
-                            <Link className='nav-item nav-link active' to='/students'>
+                            <NavLink className='nav-item nav-link' to='/students'>
                                 Students <span className='sr-only'>(current)</span>
-                            </Link>
-                            <Link className='nav-item nav-link' to='/courses'>
+                            </NavLink>
+                            <NavLink className='nav-item nav-link' to='/courses'>
                                 Courses
-                            </Link>
+                            </NavLink>
                         </div>
                     </div>
                 </div>
