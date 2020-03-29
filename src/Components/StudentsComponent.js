@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function StudentsComponent(props) {
     console.log('Props in students component is ', props);
@@ -26,7 +27,9 @@ function StudentsComponent(props) {
                     {props.allStudents.map((student) => {
                         return (
                             <tr key={student.id}>
-                                <td>{student.name}</td>
+                                <Link to={`/students/${student.id}`}>
+                                    <td>{student.name}</td>
+                                </Link>
                                 <td>{student.address}</td>
                                 <td>{student.email}</td>
                                 <td>{student.phone}</td>

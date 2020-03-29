@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 import NavComponent from './NavComponent';
 import StudentsComponent from './StudentsComponent';
+import StudentComponent from './StudentComponent';
 import CoursesComponent from './CoursesComponent';
 import Axios from 'axios';
 
@@ -55,10 +56,13 @@ function MainComponent() {
 
             {/* Routes */}
             <Switch>
-                <Route path='/students'>
+                <Route path='/students/:studentId'>
+                    <StudentComponent allStudents={allStudents} allCourses={allCourses} />
+                </Route>
+                <Route exact path='/students'>
                     <StudentsComponent allStudents={allStudents} />
                 </Route>
-                <Route path='/courses'>
+                <Route exaxt  path='/courses'>
                     <CoursesComponent allCourses={allCourses} />
                 </Route>
                 {/* Use redirect to specify a default route if routes does not match any above routes */}
@@ -68,4 +72,4 @@ function MainComponent() {
     );
 }
 
-export default MainComponent;
+export default withRouter(MainComponent);
