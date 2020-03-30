@@ -27,9 +27,9 @@ function StudentsComponent(props) {
                     {props.allStudents.map((student) => {
                         return (
                             <tr key={student.id}>
-                                <Link to={`/students/${student.id}`}>
-                                    <td>{student.name}</td>
-                                </Link>
+                                <td>
+                                    <Link to={`/students/${student.id}`}>{student.name}</Link>
+                                </td>
                                 <td>{student.address}</td>
                                 <td>{student.email}</td>
                                 <td>{student.phone}</td>
@@ -39,7 +39,9 @@ function StudentsComponent(props) {
                     })}
                 </tbody>
             </table>
-            <button className='btn btn-primary'>Add Student</button>
+            <Link to="/add-student">
+                <button className='btn btn-primary'>Add Student</button>
+            </Link>
         </div>
     );
 }
