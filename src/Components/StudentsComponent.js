@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import {Loading} from './LoadingComponent';
+
 function StudentsComponent(props) {
     console.log('Props in students component is ', props.allStudents);
     let [allStudents, setAllStudents] = useState(props.allStudents);
@@ -24,8 +26,10 @@ function StudentsComponent(props) {
     };
 
     // If no students
-    if (allStudents.loading === 0) {
-        return <p className='text-center'>Loading...</p>;
+    if (allStudents.loading === true) {
+        return (
+            <Loading />
+        );
     }
 
     // If error
