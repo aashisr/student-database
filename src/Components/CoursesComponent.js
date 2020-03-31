@@ -1,10 +1,10 @@
 import React from 'react'
 
 function CoursesComponent(props) {
-	console.log('Props in coursesComponent is ', props);
+	//console.log('Props in coursesComponent is ', props);
 
 	return (
-        <div className='container'>
+        <div>
             <h3>All Courses</h3>
             <table className='table table-striped'>
                 <thead>

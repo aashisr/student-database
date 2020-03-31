@@ -15,7 +15,6 @@ function MainComponent() {
     const [allCourses, setAllCourses] = useState([]);
 
     const axios = Axios.create({ baseURL: 'http://localhost:3000/' });
-    console.log('Hello');
 
     // Post student
     const postStudentDetails = (studentDetails) => {
@@ -24,7 +23,7 @@ function MainComponent() {
         axios
             .post('/students', studentDetails)
             .then((result) => {
-                console.log('Post student Result is ', result);
+                //console.log('Post student Result is ', result);
                 const data = result.data;
                 // Add the result to the allStudents state
                 setAllStudents([...allStudents, data]);
@@ -46,7 +45,7 @@ function MainComponent() {
                 console.log('Error is ', error);
             })
             .then(() => {
-                console.log('Finally');
+                //console.log('Finally');
             });
     }, [allStudents.length]);
 
@@ -56,7 +55,6 @@ function MainComponent() {
             .get('/courses')
             .then((response) => {
                 console.log('Response courses is ', response);
-                console.log('Response.data type for courses is ', typeof response.data);
                 setAllCourses(response.data);
             })
             .catch((error) => {
@@ -67,30 +65,32 @@ function MainComponent() {
             });
     }, [allCourses.length]);
 
-    console.log('AllStudents is ', allStudents);
-    console.log('AllCources is ', allCourses);
+    //console.log('AllStudents is ', allStudents);
+    //console.log('AllCources is ', allCourses);
 
     return (
         <div>
             <NavComponent />
 
-            {/* Routes */}
-            <Switch>
-                <Route path='/students/:studentId'>
-                    <StudentComponent allStudents={allStudents} allCourses={allCourses} />
-                </Route>
-                <Route exact path='/students'>
-                    <StudentsComponent allStudents={allStudents} />
-                </Route>
-                <Route exaxt path='/courses'>
-                    <CoursesComponent allCourses={allCourses} />
-                </Route>
-                <Route exaxt path='/add-student'>
-                    <AddStudentFormComponent postStudentDetails={postStudentDetails} />
-                </Route>
-                {/* Use redirect to specify a default route if routes does not match any above routes */}
-                <Redirect to='/students' />
-            </Switch>
+            <div className='container mt-3'>
+                {/* Routes */}
+                <Switch>
+                    <Route path='/students/:studentId'>
+                        <StudentComponent allStudents={allStudents} allCourses={allCourses} />
+                    </Route>
+                    <Route exact path='/students'>
+                        <StudentsComponent allStudents={allStudents} />
+                    </Route>
+                    <Route exaxt path='/courses'>
+                        <CoursesComponent allCourses={allCourses} />
+                    </Route>
+                    <Route exaxt path='/add-student'>
+                        <AddStudentFormComponent postStudentDetails={postStudentDetails} />
+                    </Route>
+                    {/* Use redirect to specify a default route if routes does not match any above routes */}
+                    <Redirect to='/students' />
+                </Switch>
+            </div>
         </div>
     );
 }

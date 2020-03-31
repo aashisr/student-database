@@ -1,18 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function StudentsComponent(props) {
-    console.log('Props in students component is ', props);
+    console.log('Props in students component is ', props.allStudents);
+    let [allStudents, setAllStudents] = useState(props.allStudents);
 
-    //const allStudents =
+    // State does not get updated when the props changes.
+    //So, each time props.allStudents changes we need to sync it to allStudents state
+    // Sync the props.allStudents to allStudents state
+    useEffect(() => {
+        setAllStudents(props.allStudents);
+    }, [props.allStudents]);
+
+    // Search
+    const handleSearchTextChange = (event) => {
+        const filteredStudents = props.allStudents.filter((student) => {
+            // Only return the students whose name matches the searchText, case insensitive
+            return student.name.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1;
+        });
+
+        setAllStudents(filteredStudents);
+    };
+
+    // Use allStudents from props so it does not get displayed when filtered result is 0
     if (props.allStudents.length === 0) {
-        console.log('No students');
         return <div>No students</div>;
     }
 
     return (
-        <div className='container'>
-            <h3>All students</h3>
+        <div>
+            <div className='row mt-3'>
+                <div className='col-6'>
+                    <h3>All students</h3>
+                </div>
+                <div className='col-3 ml-auto'>
+                    <input type='text' name='search' onChange={handleSearchTextChange} placeholder="Search"></input>
+                </div>
+            </div>
             <table className='table table-striped'>
                 <thead>
                     <tr>
@@ -24,7 +48,7 @@ function StudentsComponent(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.allStudents.map((student) => {
+                    {allStudents.map((student) => {
                         return (
                             <tr key={student.id}>
                                 <td>
@@ -39,7 +63,7 @@ function StudentsComponent(props) {
                     })}
                 </tbody>
             </table>
-            <Link to="/add-student">
+            <Link to='/add-student'>
                 <button className='btn btn-primary'>Add Student</button>
             </Link>
         </div>

@@ -9,22 +9,37 @@ function StudentComponent(props) {
 
 	// Get the student with this id
 	const studentArray = props.allStudents.filter((student) => student.id === studentId);
-	console.log('StudentArray is ', studentArray);
 	
 	if (studentArray.length < 1) {
 		return <p>Student not found</p>
-	}
-
+    }
+    
 	const student = studentArray[0];
-
-	console.log('Student is ', student);
 
 	// Get the courses of the student
 	const courseIds = student.courses;
-
-	const studentCourses = props.allCourses.filter((course) => courseIds.indexOf(course.id) !== -1);
-
-	console.log('Student courses is ', studentCourses);
+    const studentCourses = props.allCourses.filter((course) => courseIds.indexOf(course.id) !== -1);
+    
+    const CourseList = (courses) => {
+        if (courses.courses.length < 1) {
+            return <p>No courses</p>;
+        } else {
+            return (
+                <div>
+                    {courses.courses.map((oneCourse) => {
+                        return (
+                            <ul key={oneCourse.id}>
+                                <li>
+                                    {oneCourse.name} ({oneCourse.startdate} - {oneCourse.enddate})
+                                </li>
+                            </ul>
+                        );
+                    })}
+                </div>
+            );
+        }
+    };
+    
 
 	return (
         <div className='container'>
@@ -68,15 +83,7 @@ function StudentComponent(props) {
                     <Card>
                         <CardHeader className='bg-success text-white'>Courses</CardHeader>
                         <CardBody>
-                            {studentCourses.map((oneCourse) => {
-                                return (
-                                    <ul key={oneCourse.id}>
-                                        <li>
-                                            {oneCourse.name} ({oneCourse.startdate} - {oneCourse.enddate})
-                                        </li>
-                                    </ul>
-                                );
-                            })}
+                            <CourseList courses={studentCourses} />
                         </CardBody>
                     </Card>
                 </div>
