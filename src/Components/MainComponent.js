@@ -11,8 +11,8 @@ import Axios from 'axios';
 // DO ERROR HANDLING
 
 function MainComponent() {
-    const [allStudents, setAllStudents] = useState([]);
-    const [allCourses, setAllCourses] = useState([]);
+    const [allStudents, setAllStudents] = useState({ loading: false, errmsg: '', data: [] });
+    const [allCourses, setAllCourses] = useState({ loading: false, errmsg: '', data: [] });
 
     const axios = Axios.create({ baseURL: 'http://localhost:3000/' });
 
@@ -35,19 +35,19 @@ function MainComponent() {
 
     // Get students and assign it to the allStudents state
     useEffect(() => {
+        setAllStudents({ ...allStudents, loading: true });
         axios
             .get('/students')
             .then((response) => {
                 console.log('Response students is ', response);
-                setAllStudents(response.data);
+                setAllStudents({ ...allStudents, loading: false, data: response.data });
             })
             .catch((error) => {
-                console.log('Error is ', error);
-            })
-            .then(() => {
-                //console.log('Finally');
+                console.log('Error is ', error.message);
+                let errorMsg = 'Something went wrong. Please try again later.';
+                setAllStudents({ ...allStudents, loading: false, errmsg: errorMsg });
             });
-    }, [allStudents.length]);
+    }, [allStudents.data.length]);
 
     // Get courses and assign it to the allCourses state
     useEffect(() => {
@@ -59,9 +59,6 @@ function MainComponent() {
             })
             .catch((error) => {
                 console.log('Error is ', error);
-            })
-            .then(() => {
-                console.log('Finally');
             });
     }, [allCourses.length]);
 

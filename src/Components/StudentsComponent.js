@@ -14,17 +14,28 @@ function StudentsComponent(props) {
 
     // Search
     const handleSearchTextChange = (event) => {
-        const filteredStudents = props.allStudents.filter((student) => {
+        // Should always be filtered from source data, not from displayed data
+        const filteredStudents = props.allStudents.data.filter((student) => {
             // Only return the students whose name matches the searchText, case insensitive
             return student.name.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1;
         });
 
-        setAllStudents(filteredStudents);
+        setAllStudents({ ...allStudents, data: filteredStudents });
     };
 
-    // Use allStudents from props so it does not get displayed when filtered result is 0
-    if (props.allStudents.length === 0) {
-        return <div>No students</div>;
+    // If no students
+    if (allStudents.loading === 0) {
+        return <p className='text-center'>Loading...</p>;
+    }
+
+    // If error
+    if (allStudents.errmsg) {
+        return <p className='text-center'>{allStudents.errmsg}</p>;
+    }
+
+    // If no students
+    if (allStudents.data.length === 0) {
+        return <div className='text-center'>No students</div>;
     }
 
     return (
@@ -34,7 +45,7 @@ function StudentsComponent(props) {
                     <h3>All students</h3>
                 </div>
                 <div className='col-3 ml-auto'>
-                    <input type='text' name='search' onChange={handleSearchTextChange} placeholder="Search"></input>
+                    <input type='text' name='search' onChange={handleSearchTextChange} placeholder='Search'></input>
                 </div>
             </div>
             <table className='table table-striped'>
@@ -48,7 +59,7 @@ function StudentsComponent(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {allStudents.map((student) => {
+                    {allStudents.data.map((student) => {
                         return (
                             <tr key={student.id}>
                                 <td>
