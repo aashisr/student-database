@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import {Loading} from './LoadingComponent';
+import LoadingComponent from './LoadingComponent';
 
 function StudentsComponent(props) {
-    console.log('Props in students component is ', props.allStudents);
     let [allStudents, setAllStudents] = useState(props.allStudents);
 
     // State does not get updated when the props changes.
     //So, each time props.allStudents changes we need to sync it to allStudents state
     // Sync the props.allStudents to allStudents state
     useEffect(() => {
+        console.log('hello');
         setAllStudents(props.allStudents);
     }, [props.allStudents]);
 
@@ -27,14 +27,16 @@ function StudentsComponent(props) {
 
     // If no students
     if (allStudents.loading === true) {
-        return (
-            <Loading />
-        );
+        return <LoadingComponent />;
     }
 
     // If error
     if (allStudents.errmsg) {
-        return <p className='text-center'>{allStudents.errmsg}</p>;
+        return (
+            <div className='alert alert-danger' role='alert'>
+                {allStudents.errmsg}
+            </div>
+        );
     }
 
     // If no students
@@ -44,7 +46,7 @@ function StudentsComponent(props) {
 
     return (
         <div>
-            <div className='row mt-3'>
+            <div className='row'>
                 <div className='col-6'>
                     <h3>All students</h3>
                 </div>

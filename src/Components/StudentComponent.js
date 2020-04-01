@@ -2,13 +2,18 @@ import React from 'react'
 import { withRouter } from 'react-router-dom';
 import { Card, CardHeader, CardBody } from 'reactstrap';
 
+import LoadingComponent from './LoadingComponent';
+
 function StudentComponent(props) {
-	console.log('Props in StudentComponent is ', props);
 	// Get the studentId from the match object
 	const studentId = Number(props.match.params.studentId);
 
 	// Get the student with this id
-	const studentArray = props.allStudents.filter((student) => student.id === studentId);
+    const studentArray = props.allStudents.data.filter((student) => student.id === studentId);
+    
+    if (props.allStudents.loading === true || props.allCourses.loading === true) {
+        return <LoadingComponent />
+    }
 	
 	if (studentArray.length < 1) {
 		return <p>Student not found</p>
@@ -18,7 +23,7 @@ function StudentComponent(props) {
 
 	// Get the courses of the student
 	const courseIds = student.courses;
-    const studentCourses = props.allCourses.filter((course) => courseIds.indexOf(course.id) !== -1);
+    const studentCourses = props.allCourses.data.filter((course) => courseIds.indexOf(course.id) !== -1);
     
     const CourseList = (courses) => {
         if (courses.courses.length < 1) {

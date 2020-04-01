@@ -1,21 +1,23 @@
 import React from 'react';
 
-import { Loading } from './LoadingComponent';
+import LoadingComponent from './LoadingComponent';
 
 function CoursesComponent(props) {
     //console.log('Props in coursesComponent is ', props);
     const allCourses = props.allCourses;
 
-    console.log('All courses is ', allCourses);
-
     // Courses loading
     if (allCourses.loading === true) {
-        return <Loading />;
+        return <LoadingComponent />;
     }
 
     // If error
     if (allCourses.errmsg) {
-        return <p className='text-center'>{allCourses.errmsg}</p>;
+        return (
+            <div className='alert alert-danger' role='alert'>
+                {allCourses.errmsg}
+            </div>
+        );
     }
 
     // If no courses

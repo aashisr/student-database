@@ -24,13 +24,12 @@ function MainComponent() {
             .get('/students')
             .then((response) => {
                 setTimeout(function() {
-                    console.log('Response students is ', response);
                     setAllStudents({ ...allStudents, loading: false, data: response.data });
                 }, 2000);
             })
             .catch((error) => {
-                console.log('Error is ', error.message);
-                let errorMsg = 'Something went wrong. Please try again later.';
+                console.log('Error in fetching students: ', error.message);
+                let errorMsg = 'Error in fetching students. Please try again later.';
                 setAllStudents({ ...allStudents, loading: false, errmsg: errorMsg });
             });
     }, [allStudents.data.length]);
@@ -43,37 +42,15 @@ function MainComponent() {
             .get('/courses')
             .then((response) => {
                 setTimeout(function() {
-                    console.log('Response courses is ', response);
                     setAllCourses({ ...allCourses, loading: false, data: response.data });
                 }, 2000);
             })
             .catch((error) => {
-                console.log('Error is ', error);
-                let errorMsg = 'Something went wrong. Please try again later.';
+                console.log('Error in fetching courses: ', error);
+                let errorMsg = 'Error in fetching courses. Please try again later.';
                 setAllCourses({ ...allCourses, loading: false, errmsg: errorMsg });
             });
     }, [allCourses.data.length]);
-
-    // Post student
-    const postStudentDetails = (studentDetails) => {
-        console.log('Post student Values ', studentDetails);
-        //const values = studentDetails.values;
-        axios
-            .post('/students', studentDetails)
-            .then((result) => {
-                //console.log('Post student Result is ', result);
-                const data = result.data;
-                // Add the result to the allStudents state
-                setAllStudents({ ...allStudents, data: [...allStudents.data, data] });
-            })
-            .catch((error) => {
-                console.log('Error in adding student ', error);
-            })
-            .finally(() => {
-                console.log('Redirect to main page')
-                return <Redirect to='/students' />;
-            });
-    };
 
     //console.log('AllStudents is ', allStudents);
     //console.log('AllCources is ', allCourses);
@@ -82,7 +59,7 @@ function MainComponent() {
         <div>
             <NavComponent />
 
-            <div className='container mt-3'>
+            <div className='container mt-3 mb-5'>
                 {/* Routes */}
                 <Switch>
                     <Route path='/students/:studentId'>
@@ -95,7 +72,7 @@ function MainComponent() {
                         <CoursesComponent allCourses={allCourses} />
                     </Route>
                     <Route exaxt path='/add-student'>
-                        <AddStudentFormComponent postStudentDetails={postStudentDetails} />
+                        <AddStudentFormComponent axios={axios} allStudents={allStudents} setAllStudents={setAllStudents} />
                     </Route>
                     {/* Use redirect to specify a default route if routes does not match any above routes */}
                     <Redirect to='/students' />

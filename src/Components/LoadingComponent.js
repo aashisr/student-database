@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Loading = () => {
+const Loading = () => {
     return (
         <div className='text-center'>
             <span className='fa fa-spinner fa-pulse fa-3x fa-fw text-primary' />
@@ -8,3 +8,5 @@ export const Loading = () => {
         </div>
     );
 };
+
+export default Loading;
