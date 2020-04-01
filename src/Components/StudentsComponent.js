@@ -38,7 +38,7 @@ function StudentsComponent(props) {
     }
 
     // If no students
-    if (allStudents.data.length === 0) {
+    if (allStudents.data.length < 1) {
         return <div className='text-center'>No students</div>;
     }
 

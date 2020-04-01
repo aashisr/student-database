@@ -16,31 +16,17 @@ function MainComponent() {
 
     const axios = Axios.create({ baseURL: 'http://localhost:3000/' });
 
-    // Post student
-    const postStudentDetails = (studentDetails) => {
-        console.log('Post student Values ', studentDetails);
-        //const values = studentDetails.values;
-        axios
-            .post('/students', studentDetails)
-            .then((result) => {
-                //console.log('Post student Result is ', result);
-                const data = result.data;
-                // Add the result to the allStudents state
-                setAllStudents([...allStudents, data]);
-            })
-            .catch((error) => {
-                console.log('Error in adding student ', error);
-            });
-    };
-
     // Get students and assign it to the allStudents state
     useEffect(() => {
         setAllStudents({ ...allStudents, loading: true });
+
         axios
             .get('/students')
             .then((response) => {
-                console.log('Response students is ', response);
-                setAllStudents({ ...allStudents, loading: false, data: response.data });
+                setTimeout(function() {
+                    console.log('Response students is ', response);
+                    setAllStudents({ ...allStudents, loading: false, data: response.data });
+                }, 2000);
             })
             .catch((error) => {
                 console.log('Error is ', error.message);
@@ -51,16 +37,43 @@ function MainComponent() {
 
     // Get courses and assign it to the allCourses state
     useEffect(() => {
+        setAllCourses({ ...allCourses, loading: true });
+
         axios
             .get('/courses')
             .then((response) => {
-                console.log('Response courses is ', response);
-                setAllCourses(response.data);
+                setTimeout(function() {
+                    console.log('Response courses is ', response);
+                    setAllCourses({ ...allCourses, loading: false, data: response.data });
+                }, 2000);
             })
             .catch((error) => {
                 console.log('Error is ', error);
+                let errorMsg = 'Something went wrong. Please try again later.';
+                setAllCourses({ ...allCourses, loading: false, errmsg: errorMsg });
             });
-    }, [allCourses.length]);
+    }, [allCourses.data.length]);
+
+    // Post student
+    const postStudentDetails = (studentDetails) => {
+        console.log('Post student Values ', studentDetails);
+        //const values = studentDetails.values;
+        axios
+            .post('/students', studentDetails)
+            .then((result) => {
+                //console.log('Post student Result is ', result);
+                const data = result.data;
+                // Add the result to the allStudents state
+                setAllStudents({ ...allStudents, data: [...allStudents.data, data] });
+            })
+            .catch((error) => {
+                console.log('Error in adding student ', error);
+            })
+            .finally(() => {
+                console.log('Redirect to main page')
+                return <Redirect to='/students' />;
+            });
+    };
 
     //console.log('AllStudents is ', allStudents);
     //console.log('AllCources is ', allCourses);
