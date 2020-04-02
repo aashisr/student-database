@@ -4,14 +4,13 @@ import { Link } from 'react-router-dom';
 import LoadingComponent from './LoadingComponent';
 
 function StudentsComponent(props) {
-    let [allStudents, setAllStudents] = useState(props.allStudents);
+    let [studentsToDisplay, setStudentsToDisplay] = useState(props.allStudents);
 
     // State does not get updated when the props changes.
     //So, each time props.allStudents changes we need to sync it to allStudents state
     // Sync the props.allStudents to allStudents state
     useEffect(() => {
-        console.log('hello');
-        setAllStudents(props.allStudents);
+        setStudentsToDisplay(props.allStudents);
     }, [props.allStudents]);
 
     // Search
@@ -22,25 +21,25 @@ function StudentsComponent(props) {
             return student.name.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1;
         });
 
-        setAllStudents({ ...allStudents, data: filteredStudents });
+        setStudentsToDisplay({ ...studentsToDisplay, data: filteredStudents });
     };
 
     // If no students
-    if (allStudents.loading === true) {
+    if (studentsToDisplay.loading === true) {
         return <LoadingComponent />;
     }
 
     // If error
-    if (allStudents.errmsg) {
+    if (studentsToDisplay.errmsg) {
         return (
             <div className='alert alert-danger' role='alert'>
-                {allStudents.errmsg}
+                {studentsToDisplay.errmsg}
             </div>
         );
     }
 
     // If no students
-    if (allStudents.data.length < 1) {
+    if (studentsToDisplay.data.length < 1) {
         return <div className='text-center'>No students</div>;
     }
 
@@ -65,7 +64,7 @@ function StudentsComponent(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {allStudents.data.map((student) => {
+                    {studentsToDisplay.data.map((student) => {
                         return (
                             <tr key={student.id}>
                                 <td>
