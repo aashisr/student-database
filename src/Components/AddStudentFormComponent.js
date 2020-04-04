@@ -14,6 +14,11 @@ function AddStudentFormComponent(props) {
         email: '',
         courses: []
     });
+    const [touched, setTouched] = useState({
+        name: false,
+        phone: false,
+        email: false
+    });
 
     const [addStudentMsg, setAddStudentMsg] = useState({ type: '', msg: '' });
 
@@ -42,6 +47,9 @@ function AddStudentFormComponent(props) {
                     email: '',
                     courses: []
                 });
+
+                // Reset touched
+                setTouched({ name: false, phone: false, email: false });
             })
             .catch((error) => {
                 console.log('Error in adding student ', error);
@@ -68,6 +76,72 @@ function AddStudentFormComponent(props) {
         event.preventDefault();
     };
 
+    // Handle blur
+    const handleBlur = (event) => {
+        const name = event.target.name;
+
+        // Set the touched of touched field to true
+        setTouched({ ...touched, [name]: true });
+        
+        //validate();
+    };
+
+    // Validate the form each time it is rendered
+    const validate = () => {
+        const errors = {
+            name: '',
+            phone: '',
+            email: ''
+        }
+
+        const regexPhone = /^\d+$/;
+        const regexEmail = /\S+@\S+\.\S+/;
+  
+        if (touched.name && studentDetails.name.length < 5) {
+            errors.name = 'Name must be greater than 4 characters.';
+        }
+
+        if (touched.name && studentDetails.name.indexOf(' ') === -1) {
+            errors.name = 'Name must contain both first name and last name.';
+        }
+
+        if (touched.phone && !regexPhone.test(studentDetails.phone)) {
+            errors.phone = 'Phone number should contain only numbers.';
+        }
+
+        if (touched.email && !regexEmail.test(studentDetails.email)) {
+            errors.email = 'Please enter a valid email.';
+        }
+
+        return errors;
+    };
+
+    // Call the validate function here so that every time the form is rerendered,
+    //it validates the form input and returns error messages
+    const errorMsg = validate();
+
+    // Component to render error message
+    const FormErrorMessage = (field) => {
+        if (field.field === 'name' && touched.name === true && errorMsg.name.length > 0) {
+            return <small className='formError'>{errorMsg.name}</small>;
+        } else if (field.field === 'phone' && touched.phone === true && errorMsg.phone.length > 0) {
+            return <small className='formError'>{errorMsg.phone}</small>;
+        } else if (field.field === 'email' && touched.email === true && errorMsg.email.length > 0) {
+            return <small className='formError'>{errorMsg.email}</small>;
+        }  else {
+            return <div></div>;
+        }
+    };
+
+    // Submit button
+    const SubmitButton = () => {
+        if (errorMsg.name.length > 0 || errorMsg.phone.length > 0 || errorMsg.email.length > 0 ) {
+            return <input type='submit' className='btn btn-primary' disabled value='Submit' />;
+        } else {
+            return <input type='submit' className='btn btn-primary' value='Submit' />;
+        }
+    };
+
     return (
         <div>
             <div className='col-12'>
@@ -78,7 +152,8 @@ function AddStudentFormComponent(props) {
                 <div className='row mt-3'>
                     <div className='form-group col-6'>
                         <label htmlFor='name'>Name</label>
-                        <input type='text' className='form-control' id='name' name='name' placeholder='Name' value={studentDetails.name} onChange={handleInputChange} />
+                        <input type='text' className='form-control' id='name' name='name' placeholder='Name' value={studentDetails.name} onChange={handleInputChange} onBlur={handleBlur} />
+                        <FormErrorMessage field='name' />
                     </div>
                     <div className='form-group col-6'>
                         <label htmlFor='address'>Address</label>
@@ -94,18 +169,20 @@ function AddStudentFormComponent(props) {
                     </div>
                     <div className='form-group col-6'>
                         <label htmlFor='phone'>Phone</label>
-                        <input type='text' className='form-control' id='phone' name='phone' placeholder='Phone' value={studentDetails.phone} onChange={handleInputChange} />
+                        <input type='text' className='form-control' id='phone' name='phone' placeholder='Phone' value={studentDetails.phone} onChange={handleInputChange} onBlur={handleBlur} />
+                        <FormErrorMessage field='phone' />
                     </div>
                     <div className='form-group col-6'>
                         <label htmlFor='email'>Email</label>
-                        <input type='text' className='form-control' id='email' name='email' placeholder='Email' value={studentDetails.email} onChange={handleInputChange} />
+                        <input type='text' className='form-control' id='email' name='email' placeholder='Email' value={studentDetails.email} onChange={handleInputChange} onBlur={handleBlur} />
+                        <FormErrorMessage field='email' />
                     </div>
                     <div className='form-group col-12'>
                         <label htmlFor='birthday'>Birthday</label>
                         <input type='text' className='form-control' id='birthday' name='birthday' placeholder='yyyy-mm-dd' value={studentDetails.birthday} onChange={handleInputChange} />
                     </div>
                     <div className='col-4'>
-                        <input type='submit' className='btn btn-primary' value='Submit' />
+                        <SubmitButton />
                     </div>
                 </div>
             </form>

@@ -50,7 +50,7 @@ function StudentsComponent(props) {
                     <h3>All students</h3>
                 </div>
                 <div className='col-3 ml-auto'>
-                    <input type='text' name='search' onChange={handleSearchTextChange} placeholder='Search'></input>
+                    <input className="form-control" type='text' name='search' onChange={handleSearchTextChange} placeholder='Search'></input>
                 </div>
             </div>
             <table className='table table-striped'>
