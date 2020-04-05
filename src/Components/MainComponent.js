@@ -25,7 +25,7 @@ function MainComponent() {
             .then((response) => {
                 setTimeout(function() {
                     setAllStudents({ ...allStudents, loading: false, data: response.data });
-                }, 2000);
+                }, 1000);
             })
             .catch((error) => {
                 console.log('Error in fetching students: ', error.message);
@@ -43,7 +43,7 @@ function MainComponent() {
             .then((response) => {
                 setTimeout(function() {
                     setAllCourses({ ...allCourses, loading: false, data: response.data });
-                }, 2000);
+                }, 1000);
             })
             .catch((error) => {
                 console.log('Error in fetching courses: ', error);
@@ -51,9 +51,6 @@ function MainComponent() {
                 setAllCourses({ ...allCourses, loading: false, errmsg: errorMsg });
             });
     }, [allCourses.data.length]);
-
-    //console.log('AllStudents is ', allStudents);
-    //console.log('AllCources is ', allCourses);
 
     return (
         <div>
@@ -63,7 +60,7 @@ function MainComponent() {
                 {/* Routes */}
                 <Switch>
                     <Route path='/students/:studentId'>
-                        <StudentComponent allStudents={allStudents} allCourses={allCourses} />
+                        <StudentComponent allStudents={allStudents} allCourses={allCourses} axios={axios} />
                     </Route>
                     <Route exact path='/students'>
                         <StudentsComponent allStudents={allStudents} />

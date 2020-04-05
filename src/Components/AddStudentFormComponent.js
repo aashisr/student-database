@@ -14,6 +14,7 @@ function AddStudentFormComponent(props) {
         email: '',
         courses: []
     });
+    
     const [touched, setTouched] = useState({
         name: false,
         phone: false,
@@ -70,10 +71,10 @@ function AddStudentFormComponent(props) {
     };
 
     const handleSubmitForm = (event) => {
+        event.preventDefault();
+
         // Submit the studentDetails values to the postStudentDetails function in MainComponent
         postStudentDetails(studentDetails);
-
-        event.preventDefault();
     };
 
     // Handle blur
