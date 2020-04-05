@@ -1,37 +1,36 @@
-import React from 'react';
-import {Link, NavLink} from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { Navbar, NavbarBrand, NavbarToggler, Nav, NavItem, Collapse } from 'reactstrap';
 
 function NavComponent() {
-	return (
+    const [collapsed, setCollapsed] = useState(true);
+
+    const toggleNavbar = () => setCollapsed(!collapsed);
+
+    return (
         <div>
-            <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
+            <Navbar color='primary' dark expand='sm'>
                 <div className='container'>
-                    <Link className='navbar-brand' to='/students'>
+                    <NavbarBrand href='/students' className='mr-auto'>
                         Student Database
-                    </Link>
-                    <button
-                        className='navbar-toggler'
-                        type='button'
-                        data-toggle='collapse'
-                        data-target='#navbarNavAltMarkup'
-                        aria-controls='navbarNavAltMarkup'
-                        aria-expanded='false'
-                        aria-label='Toggle navigation'
-                    >
-                        <span className='navbar-toggler-icon'></span>
-                    </button>
-                    <div className='collapse navbar-collapse ml-auto' id='navbarNavAltMarkup'>
-                        <div className='navbar-nav'>
-                            <NavLink className='nav-item nav-link' to='/students'>
-                                Students <span className='sr-only'>(current)</span>
-                            </NavLink>
-                            <NavLink className='nav-item nav-link' to='/courses'>
-                                Courses
-                            </NavLink>
-                        </div>
-                    </div>
+                    </NavbarBrand>
+                    <NavbarToggler onClick={toggleNavbar} className='mr-2' />
+                    <Collapse isOpen={!collapsed} navbar className='ml-3'>
+                        <Nav navbar>
+                            <NavItem>
+                                <NavLink className='nav-link' to='/students'>
+                                    Students <span className='sr-only'>(current)</span>
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink className='nav-link' to='/courses'>
+                                    Courses
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+                    </Collapse>
                 </div>
-            </nav>
+            </Navbar>
         </div>
     );
 }

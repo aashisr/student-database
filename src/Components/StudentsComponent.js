@@ -45,15 +45,15 @@ function StudentsComponent(props) {
 
     return (
         <div>
-            <div className='row'>
-                <div className='col-6'>
+            <div className='row mb-1'>
+                <div className='col-12 col-sm-6'>
                     <h3>All students</h3>
                 </div>
-                <div className='col-3 ml-auto'>
+                <div className='col-12 col-sm-4 ml-auto mb-2 mb-sm-0'>
                     <input className="form-control" type='text' name='search' onChange={handleSearchTextChange} placeholder='Search'></input>
                 </div>
             </div>
-            <table className='table table-striped'>
+            <table className='table table-striped table-responsive-md'>
                 <thead>
                     <tr>
                         <th>Name</th>
