@@ -20,6 +20,7 @@
 1. Start the json server
 	`json-server --watch db.json`
 1. The server should start on `http://localhost:3000`. If it does not, change the baseUrl in src/config.js file to the server url.
+1. Open a new terminal and install the dependencies `yarn install`
 1. Start the application
 	`yarn start`
 
