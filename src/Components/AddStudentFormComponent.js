@@ -14,7 +14,7 @@ function AddStudentFormComponent(props) {
         email: '',
         courses: []
     });
-    
+
     const [touched, setTouched] = useState({
         name: false,
         phone: false,
@@ -158,38 +158,38 @@ function AddStudentFormComponent(props) {
 
             <form onSubmit={handleSubmitForm}>
                 <div className='row mt-3'>
-                    <div className='form-group col-6'>
+                    <div className='form-group col-12 col-sm-6'>
                         <label htmlFor='name'>Name</label>
                         <input type='text' className='form-control' id='name' name='name' placeholder='Name' value={studentDetails.name} onChange={handleInputChange} onBlur={handleBlur} />
                         <FormErrorMessage field='name' />
                     </div>
-                    <div className='form-group col-6'>
+                    <div className='form-group col-12 col-sm-6'>
                         <label htmlFor='address'>Address</label>
                         <input type='text' className='form-control' id='address' name='address' placeholder='Address' value={studentDetails.address} onChange={handleInputChange} />
                     </div>
-                    <div className='form-group col-6'>
+                    <div className='form-group col-12 col-sm-6'>
                         <label htmlFor='zipcode'>Zipcode</label>
                         <input type='text' className='form-control' id='zipcode' name='zipcode' placeholder='Zipcode' value={studentDetails.zipcode} onChange={handleInputChange} />
                     </div>
-                    <div className='form-group col-6'>
+                    <div className='form-group col-12 col-sm-6'>
                         <label htmlFor='city'>City</label>
                         <input type='text' className='form-control' id='city' name='city' placeholder='City' value={studentDetails.city} onChange={handleInputChange} />
                     </div>
-                    <div className='form-group col-6'>
+                    <div className='form-group col-12 col-sm-6'>
                         <label htmlFor='phone'>Phone</label>
                         <input type='text' className='form-control' id='phone' name='phone' placeholder='Phone' value={studentDetails.phone} onChange={handleInputChange} onBlur={handleBlur} />
                         <FormErrorMessage field='phone' />
                     </div>
-                    <div className='form-group col-6'>
+                    <div className='form-group col-12 col-sm-6'>
                         <label htmlFor='email'>Email</label>
                         <input type='text' className='form-control' id='email' name='email' placeholder='Email' value={studentDetails.email} onChange={handleInputChange} onBlur={handleBlur} />
                         <FormErrorMessage field='email' />
                     </div>
-                    <div className='form-group col-12'>
+                    <div className='form-group col-12 col-md-6'>
                         <label htmlFor='birthday'>Birthday</label>
                         <input type='text' className='form-control' id='birthday' name='birthday' placeholder='yyyy-mm-dd' value={studentDetails.birthday} onChange={handleInputChange} />
                     </div>
-                    <div className='col-4'>
+                    <div className='col-4 col-md-8'>
                         <SubmitButton />
                     </div>
                 </div>

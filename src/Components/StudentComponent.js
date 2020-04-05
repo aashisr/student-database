@@ -126,52 +126,57 @@ function StudentComponent(props) {
             <div className='col-12'>
                 <NotificationComponent message={addCourseMsg} />
             </div>
-            <div className='row col-12'>
-                <div className='col-6 row'>
-                    <div className='col-12'>
-                        <h3>
-                            {student.name} ({student.birthday})
-                        </h3>
+            <div className='col-12'>
+                <div className='row'>
+                    <div className='col-12 col-md-6'>
+                        <div className='row mb-3 mb-md-0'>
+                            <div className='col-12'>
+                                <h3>
+                                    {student.name} ({student.birthday})
+                                </h3>
+                            </div>
+                            <div className='col-12'>
+                                <div className='row'>
+                                    <div className='col-4 col-sm-3'>
+                                        <span>Address:</span>
+                                    </div>
+                                    <div className='col-8'>
+                                        <span>
+                                            {student.address}, {student.zipcode} {student.city}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className='row'>
+                                    <div className='col-4 col-sm-3'>
+                                        <span>Phone:</span>
+                                    </div>
+                                    <div className='col-8'>
+                                        <span>{student.phone}</span>
+                                    </div>
+                                </div>
+                                <div className='row'>
+                                    <div className='col-4 col-sm-3'>
+                                        <span>Email:</span>
+                                    </div>
+                                    <div className='col-8'>
+                                        <span>{student.email}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className='col-12'>
-                        <div className='row'>
-                            <div className='col-2'>
-                                <span>Address:</span>
-                            </div>
-                            <div className='col-6'>
-                                <span>
-                                    {student.address}, {student.zipcode} {student.city}
-                                </span>
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-2'>
-                                <span>Phone:</span>
-                            </div>
-                            <div className='col-6'>
-                                <span>{student.phone}</span>
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-2'>
-                                <span>Email:</span>
-                            </div>
-                            <div className='col-6'>
-                                <span>{student.email}</span>
-                            </div>
-                        </div>
+
+                    <div className='col-12 col-md-6'>
+                        <Card>
+                            <CardHeader className='bg-success text-white'>Courses</CardHeader>
+                            <CardBody>
+                                <CourseList courses={studentCourses} />
+                                <button className='btn btn-sm btn-primary mt-3' onClick={toggleModal}>
+                                    Add Course
+                                </button>
+                            </CardBody>
+                        </Card>
                     </div>
-                </div>
-                <div className='col-6'>
-                    <Card>
-                        <CardHeader className='bg-success text-white'>Courses</CardHeader>
-                        <CardBody>
-                            <CourseList courses={studentCourses} />
-                            <button className='btn btn-sm btn-primary mt-3' onClick={toggleModal}>
-                                Add Course
-                            </button>
-                        </CardBody>
-                    </Card>
                 </div>
             </div>
 
