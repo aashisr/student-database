@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Card, CardHeader, CardBody, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Card, CardHeader, CardBody, Modal, ModalHeader, ModalBody, ModalFooter, UncontrolledTooltip } from 'reactstrap';
 
 import LoadingComponent from './LoadingComponent';
 import NotificationComponent from './NotificationComponent';
@@ -41,7 +41,7 @@ function StudentComponent(props) {
     const handleAddCourseFormSubmit = (event) => {
         event.preventDefault();
 
-        // Copy the student and add the selected course to the corses array
+        // Copy the student and add the selected course to the courses array
         const studentCopy = { ...student, courses: [...student.courses, selectedCourse] };
 
         // Add the selected course to the student object
@@ -65,6 +65,36 @@ function StudentComponent(props) {
             });
     };
 
+    const removeCourse = (courseId) => {
+        // Confirm the deletion
+        if (window.confirm('Are you sur eyou want to remove the course?')) {
+            // return the ids of all courses left after removing the given course id
+            const courseIdsAfterRemove = studentCourses.filter((course) => course.id !== courseId).map((course) => course.id);
+
+            // Copy the student and remove the selected course from the courses array
+            const studentCopyAgain = { ...student, courses: courseIdsAfterRemove };
+
+            // Add the selected course to the student object
+            props.axios
+                .put(`/students/${student.id}`, studentCopyAgain)
+                .then((result) => {
+                    // Replace the courses in student object with the courseIdsAfterRemove
+                    student.courses = courseIdsAfterRemove;
+                    setAddCourseMsg({ type: 'success', msg: 'Course removed successfully from the student.' });
+                })
+                .catch((error) => {
+                    console.log('Remove course error is ', error);
+                    setAddCourseMsg({ type: 'error', msg: 'Error in removing course from the student. Please, try again later.' });
+                })
+                .finally(() => {
+                    // Display message only for 3 seconds
+                    setTimeout(() => {
+                        setAddCourseMsg({ type: '', msg: '' });
+                    }, 3000);
+                });
+        }
+    };
+
     const CourseList = (courses) => {
         if (courses.courses.length < 1) {
             return <p>No courses</p>;
@@ -73,11 +103,17 @@ function StudentComponent(props) {
                 <div>
                     {courses.courses.map((oneCourse) => {
                         return (
-                            <ul key={oneCourse.id}>
-                                <li>
+                            <div key={oneCourse.id} className='row'>
+                                <div className='col-10'>
                                     {oneCourse.name} ({oneCourse.startdate} - {oneCourse.enddate})
-                                </li>
-                            </ul>
+                                </div>
+                                <div className='col-2'>
+                                    <span onClick={() => removeCourse(oneCourse.id)} id='deleteCourse'>
+                                        <i className='fa fa-trash'></i>
+                                    </span>
+                                    <UncontrolledTooltip target='deleteCourse'>Remove Course</UncontrolledTooltip>
+                                </div>
+                            </div>
                         );
                     })}
                 </div>
@@ -131,7 +167,7 @@ function StudentComponent(props) {
                         <CardHeader className='bg-success text-white'>Courses</CardHeader>
                         <CardBody>
                             <CourseList courses={studentCourses} />
-                            <button className='btn btn-sm btn-primary' onClick={toggleModal}>
+                            <button className='btn btn-sm btn-primary mt-3' onClick={toggleModal}>
                                 Add Course
                             </button>
                         </CardBody>
