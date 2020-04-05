@@ -1,3 +1,28 @@
+## Student Database
+
+### Features: 
+
+1. Displays the list of students
+1. Displays the list of courses available
+1. Filter/search the students
+1. Add a new student
+1. Form validation for AddStudent form
+1. Prevents addition of duplicate students
+1. Displays a student page with detailed information and all courses enrolled
+1. Can add or remove courses from the student
+1. Displays error, success or info messge for each action
+1. Responsive to all screen sizes
+
+## Instructions for running this application in your machine
+
+1. Clone the project
+1. Go to the root directory of the project
+1. Start the json server
+	`json-server --watch db.json`
+1. The server should start on `http://localhost:3000`. If it does not, change the baseUrl in src/config.js file to the server url.
+1. Start the application
+	`yarn start`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
