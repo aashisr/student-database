@@ -25,44 +25,53 @@ function AddStudentFormComponent(props) {
 
     // Post student
     const postStudentDetails = (studentDetails) => {
-        //const values = studentDetails.values;
-        props.axios
-            .post('/students', studentDetails)
-            .then((result) => {
-                //console.log('Post student Result is ', result);
-                const data = result.data;
-                // Add the result to the allStudents state
-                props.setAllStudents({ ...props.allStudents, data: [...props.allStudents.data, data] });
+        // Check if student name already exists
+        const studentExists = props.allStudents.data.filter((student) => student.name === studentDetails.name);
+        console.log('studentExists is ', studentExists);
 
-                // Add the success message to addStudnet msg
-                setAddStudentMsg({ type: 'success', msg: 'Student added successfully.' });
+        if (studentExists.length > 0) {
+            // Student already exists, Add the info message to addStudnet msg
+            setAddStudentMsg({ type: 'info', msg: 'Student already exists.' });
+        } else {
+            // Add the student
+            props.axios
+                .post('/students', studentDetails)
+                .then((result) => {
+                    //console.log('Post student Result is ', result);
+                    const data = result.data;
+                    // Add the result to the allStudents state
+                    props.setAllStudents({ ...props.allStudents, data: [...props.allStudents.data, data] });
 
-                // Reset form
-                setStudentDetails({
-                    name: '',
-                    birthday: '',
-                    address: '',
-                    zipcode: '',
-                    city: '',
-                    phone: '',
-                    email: '',
-                    courses: []
+                    // Add the success message to addStudnet msg
+                    setAddStudentMsg({ type: 'success', msg: 'Student added successfully.' });
+
+                    // Reset form
+                    setStudentDetails({
+                        name: '',
+                        birthday: '',
+                        address: '',
+                        zipcode: '',
+                        city: '',
+                        phone: '',
+                        email: '',
+                        courses: []
+                    });
+
+                    // Reset touched
+                    setTouched({ name: false, phone: false, email: false });
+                })
+                .catch((error) => {
+                    console.log('Error in adding student ', error);
+                    // Add the success message to addStudnet msg
+                    setAddStudentMsg({ type: 'error', msg: 'Error in adding student. Please try again later.' });
+                })
+                .finally(() => {
+                    // Display message only for 3 seconds
+                    setTimeout(() => {
+                        setAddStudentMsg({ type: '', msg: '' });
+                    }, 3000);
                 });
-
-                // Reset touched
-                setTouched({ name: false, phone: false, email: false });
-            })
-            .catch((error) => {
-                console.log('Error in adding student ', error);
-                // Add the success message to addStudnet msg
-                setAddStudentMsg({ type: 'error', msg: 'Error in adding student. Please try again later.' });
-            })
-            .finally(() => {
-                // Display message only for 3 seconds
-                setTimeout(() => {
-                    setAddStudentMsg({ type: '', msg: '' });
-                }, 3000);
-            });
+        }
     };
 
     const handleInputChange = (event) => {
@@ -83,8 +92,6 @@ function AddStudentFormComponent(props) {
 
         // Set the touched of touched field to true
         setTouched({ ...touched, [name]: true });
-        
-        //validate();
     };
 
     // Validate the form each time it is rendered
@@ -93,11 +100,11 @@ function AddStudentFormComponent(props) {
             name: '',
             phone: '',
             email: ''
-        }
+        };
 
         const regexPhone = /^\d+$/;
         const regexEmail = /\S+@\S+\.\S+/;
-  
+
         if (touched.name && studentDetails.name.length < 5) {
             errors.name = 'Name must be greater than 4 characters.';
         }
@@ -129,14 +136,14 @@ function AddStudentFormComponent(props) {
             return <small className='formError'>{errorMsg.phone}</small>;
         } else if (field.field === 'email' && touched.email === true && errorMsg.email.length > 0) {
             return <small className='formError'>{errorMsg.email}</small>;
-        }  else {
+        } else {
             return <div></div>;
         }
     };
 
     // Submit button
     const SubmitButton = () => {
-        if (errorMsg.name.length > 0 || errorMsg.phone.length > 0 || errorMsg.email.length > 0 ) {
+        if (errorMsg.name.length > 0 || errorMsg.phone.length > 0 || errorMsg.email.length > 0 || touched.name === false) {
             return <input type='submit' className='btn btn-primary' disabled value='Submit' />;
         } else {
             return <input type='submit' className='btn btn-primary' value='Submit' />;

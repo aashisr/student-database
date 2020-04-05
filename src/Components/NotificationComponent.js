@@ -13,6 +13,12 @@ function NotificationComponent(props) {
                 {props.message.msg}
             </div>
         );
+    } else if (props.message.type === 'info') {
+        return (
+            <div className='alert alert-info' role='alert'>
+                {props.message.msg}
+            </div>
+        );
     } else {
         return <div />;
     }
