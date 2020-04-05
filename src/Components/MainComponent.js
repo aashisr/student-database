@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import Axios from 'axios';
 
 import NavComponent from './NavComponent';
 import StudentsComponent from './StudentsComponent';
 import StudentComponent from './StudentComponent';
 import CoursesComponent from './CoursesComponent';
 import AddStudentFormComponent from './AddStudentFormComponent';
-import Axios from 'axios';
+import { baseUrl } from '../config';
 
 // DO ERROR HANDLING
 
@@ -14,7 +15,7 @@ function MainComponent() {
     const [allStudents, setAllStudents] = useState({ loading: false, errmsg: '', data: [] });
     const [allCourses, setAllCourses] = useState({ loading: false, errmsg: '', data: [] });
 
-    const axios = Axios.create({ baseURL: 'http://localhost:3000/' });
+    const axios = Axios.create({ baseURL: baseUrl });
 
     // Get students and assign it to the allStudents state
     useEffect(() => {
@@ -23,7 +24,7 @@ function MainComponent() {
         axios
             .get('/students')
             .then((response) => {
-                setTimeout(function() {
+                setTimeout(function () {
                     setAllStudents({ ...allStudents, loading: false, data: response.data });
                 }, 1000);
             })
@@ -41,7 +42,7 @@ function MainComponent() {
         axios
             .get('/courses')
             .then((response) => {
-                setTimeout(function() {
+                setTimeout(function () {
                     setAllCourses({ ...allCourses, loading: false, data: response.data });
                 }, 1000);
             })
