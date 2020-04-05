@@ -24,7 +24,7 @@ function MainComponent() {
         axios
             .get('/students')
             .then((response) => {
-                setTimeout(function () {
+                setTimeout(function() {
                     setAllStudents({ ...allStudents, loading: false, data: response.data });
                 }, 1000);
             })
@@ -33,7 +33,7 @@ function MainComponent() {
                 let errorMsg = 'Error in fetching students. Please try again later.';
                 setAllStudents({ ...allStudents, loading: false, errmsg: errorMsg });
             });
-    }, [allStudents.data.length]);
+    }, [allStudents.data.length]); //eslint-disable-line
 
     // Get courses and assign it to the allCourses state
     useEffect(() => {
@@ -42,7 +42,7 @@ function MainComponent() {
         axios
             .get('/courses')
             .then((response) => {
-                setTimeout(function () {
+                setTimeout(function() {
                     setAllCourses({ ...allCourses, loading: false, data: response.data });
                 }, 1000);
             })
@@ -51,7 +51,7 @@ function MainComponent() {
                 let errorMsg = 'Error in fetching courses. Please try again later.';
                 setAllCourses({ ...allCourses, loading: false, errmsg: errorMsg });
             });
-    }, [allCourses.data.length]);
+    }, [allCourses.data.length]); //eslint-disable-line
 
     return (
         <div>
